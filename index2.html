@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PENATA 🪅</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* [Your existing CSS remains unchanged] */
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success: #4caf50;
+            --danger: #f44336;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --banner-gradient: linear-gradient(120deg, var(--primary-color), var(--accent-color));
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glow-effect: 0 0 15px rgba(67, 97, 238, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            padding: 20px 10px 100px;
+            color: var(--dark-color);
+            overflow-x: hidden;
+        }
+
+        header {
+            background: var(--glass-bg);
+            padding: 10px 20px;
+            box-shadow: var(--card-shadow);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 10px;
+            z-index: 1000;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-balance {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            background: rgba(67, 97, 238, 0.15);
+            padding: 8px 20px;
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+        }
+
+        .header-balance:hover {
+            transform: scale(1.05);
+            box-shadow: var(--glow-effect);
+        }
+
+        .section {
+            display: none;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto 20px;
+            background: var(--glass-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease-in-out;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--banner-gradient);
+            border-radius: 4px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 1px solid #e5e7eb;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: var(--glow-effect);
+            outline: none;
+        }
+
+        .form-control:invalid:not(:placeholder-shown) {
+            border-color: var(--danger);
+            box-shadow: 0 0 8px rgba(244, 67, 54, 0.2);
+        }
+
+        label {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background: var(--glass-bg);
+            padding: 0 8px;
+        }
+
+        .form-control:focus + label,
+        .form-control:not(:placeholder-shown) + label {
+            top: -10px;
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--banner-gradient);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            color: #fff;
+            width: 100%;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow-effect);
+        }
+
+        .btn-primary:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-danger {
+            background: linear-gradient(120deg, var(--danger), #d32f2f);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            color: #fff;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.5);
+        }
+
+        .minerals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .mineral-card {
+            background: linear-gradient(145deg, #ffffff, #f0f4ff);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid rgba(67, 97, 238, 0.15);
+            position: relative;
+        }
+
+        .mineral-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-hover-shadow);
+            border-color: var(--primary-color);
+        }
+
+        .mineral-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .mineral-card:hover .mineral-image {
+            transform: scale(1.1);
+        }
+
+        .mineral-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+        }
+
+        .mineral-price {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .mineral-return {
+            color: var(--success);
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .mineral-profit {
+            color: #ff9800;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+        }
+
+        .dashboard-header {
+            background: var(--banner-gradient);
+            color: #fff;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            margin: -25px -25px 20px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 20%, transparent 80%);
+            opacity: 0.5;
+        }
+
+        .dashboard-balance {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            padding: 15px 20px;
+            background: rgba(67, 97, 238, 0.15);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-balance:hover {
+            transform: scale(1.03);
+            box-shadow: var(--glow-effect);
+        }
+
+        .address-box {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            word-break: break-all;
+            margin-bottom: 20px;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .history {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .history-item {
+            background: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            text-align: left;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .history-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .status-pending { color: #f59e0b; font-weight: 600; }
+        .status-approved { color: var(--success); font-weight: 600; }
+        .status-rejected { color: var(--danger); font-weight: 600; }
+        .status-processed { color: #2196f3; font-weight: 600; } /* Added for processed status */
+
+        .chat-header {
+            background: var(--banner-gradient);
+            color: #fff;
+            padding: 15px;
+            border-radius: 12px 12px 0 0;
+            margin: -25px -25px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 20%, transparent 80%);
+            opacity: 0.5;
+        }
+
+        .chat-status {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chat-status .online-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+
+        .chat-messages {
+            max-height: 400px
+
+;
+            overflow-y: auto;
+            padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            max-width: 75%;
+            word-wrap: break-word;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-message.user {
+            background: var(--primary-color);
+            color: #fff;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+
+        .chat-message.admin {
+            background: #e9ecef;
+            color: var(--dark-color);
+            margin-right: auto;
+            border-bottom-left-radius: 0;
+        }
+
+        .chat-message small {
+            display: block;
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .chat-input-area .form-group {
+            flex-grow: 1;
+            margin-bottom: 0;
+        }
+
+        .chat-input-area .btn-primary {
+            width: auto;
+            padding: 12px 20px;
+            text-transform: none;
+        }
+
+        .footer-nav {
+            position: fixed;
+            bottom: 15px;
+            width: calc(100% - 30px);
+            max-width: 600px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px;
+            box-shadow: var(--card-shadow);
+            border-radius: 12px;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            color: var(--primary-color);
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            transform: scale(1.1);
+        }
+
+        .nav-text {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .nav-tooltip {
+            visibility: hidden;
+            background: var(--dark-color);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 100%;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-item:hover .nav-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .loader {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1s infinite;
+        }
+
+        .balance-loader {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(67, 97, 238, 0.3);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .refresh-btn {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .refresh-btn:hover {
+            background: #3ab0d8;
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .minerals-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .dashboard-balance {
+                font-size: 1.5rem;
+            }
+
+            .footer-nav {
+                padding: 6px;
+            }
+
+            .nav-icon {
+                font-size: 1.1rem;
+            }
+
+            .nav-text {
+                font-size: 0.65rem;
+            }
+
+            .chat-message {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="logo">PENATA</div>
+        <div class="header-balance" id="headerBalance"><span class="balance-loader"></span></div>
+    </header>
+
+    <div id="register" class="section active">
+        <h1>Get Started</h1>
+        <form id="registerForm">
+            <div class="form-group">
+                <input type="text" id="regName" name="name" class="form-control" placeholder=" " required>
+                <label for="regName">Full Name</label>
+            </div>
+            <div class="form-group">
+                <input type="email" id="regEmail" name="email" class="form-control" placeholder=" " required>
+                <label for="regEmail">Email Address</label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="regPassword" name="password" class="form-control" placeholder=" " required minlength="6">
+                <label for="regPassword">Password</label>
+            </div>
+            <button type="submit" class="btn-primary" id="regBtn"><span class="loader" id="regLoader"></span><span id="regText">Sign Up</span></button>
+        </form>
+        <div class="link"><a onclick="showSection('login')">Already have an account? Sign In</a></div>
+    </div>
+
+    <div id="login" class="section">
+        <h1>Welcome Back</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <input type="email" id="loginEmail" name="email" class="form-control" placeholder=" " required>
+                <label for="loginEmail">Email Address</label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="loginPassword" name="password" class="form-control" placeholder=" " required>
+                <label for="loginPassword">Password</label>
+            </div>
+            <button type="submit" class="btn-primary" id="loginBtn"><span class="loader" id="loginLoader"></span><span id="loginText">Sign In</span></button>
+        </form>
+        <div class="link"><a onclick="showSection('register')">New here? Sign Up</a></div>
+    </div>
+
+    <div id="dashboard" class="section">
+        <div class="dashboard-header">
+            <h2>Welcome to PENATA</h2>
+            <p>Grow your wealth with mineral holdings</p>
+        </div>
+        <div class="dashboard-balance" id="dashboardBalance"><span class="balance-loader"></span></div>
+        <div class="minerals-grid">
+            <div class="mineral-card">
+                <img id="ruby-image" class="mineral-image" alt="Ruby">
+                <div class="mineral-name">Ruby</div>
+                <div class="mineral-price">TZS 28,000 / 10 USDT</div>
+                <div class="mineral-return">Daily Income: 4,970 TSH</div>
+                <div class="mineral-profit">Net Profit (240 days): 1,192,800 TSH</div>
+                <button class="btn-primary" onclick="invest('ruby', 28000, 4970, 10, this)"><i class="bi bi-check-circle-fill"></i><span>Hold</span><span class="loader" style="display:none;"></span></button>
+            </div>
+            <div class="mineral-card">
+                <img id="diamond-image" class="mineral-image" alt="Diamond">
+                <div class="mineral-name">Diamond</div>
+                <div class="mineral-price">TZS 42,000 / 15 USDT</div>
+                <div class="mineral-return">Daily Income: 6,944 TSH</div>
+                <div class="mineral-profit">Net Profit (240 days): 1,666,560 TSH</div>
+                <button class="btn-primary" onclick="invest('diamond', 42000, 6944, 15, this)"><i class="bi bi-check-circle-fill"></i><span>Hold</span><span class="loader" style="display:none;"></span></button>
+            </div>
+            <div class="mineral-card">
+                <img id="sulphur-image" class="mineral-image" alt="Sulphur">
+                <div class="mineral-name">Sulphur</div>
+                <div class="mineral-price">TZS 50,000 / 18 USDT</div>
+                <div class="mineral-return">Daily Income: 8,923 TSH</div>
+                <div class="mineral-profit">Net Profit (240 days): 2,141,520 TSH</div>
+                <button class="btn-primary" onclick="invest('sulphur', 50000, 8923, 18, this)"><i class="bi bi-check-circle-fill"></i><span>Hold</span><span class="loader" style="display:none;"></span></button>
+            </div>
+            <div class="mineral-card">
+                <img id="iron-image" class="mineral-image" alt="Iron">
+                <div class="mineral-name">Iron (Small)</div>
+                <div class="mineral-price">TZS 100,000 / 36 USDT</div>
+                <div class="mineral-return">Daily Income: 17,875 TSH</div>
+                <div class="mineral-profit">Net Profit (240 days): 4,290,000 TSH</div>
+                <button class="btn-primary" onclick="invest('iron (small)', 100000, 17875, 36, this)"><i class="bi bi-check-circle-fill"></i><span>Hold</span><span class="loader" style="display:none;"></span></button>
+            </div>
+            <div class="mineral-card">
+                <img id="gold-image" class="mineral-image" alt="Gold">
+                <div class="mineral-name">Iron Gold</div>
+                <div class="mineral-price">TZS 200,000 / 72 USDT</div>
+                <div class="mineral-return">Daily Income: 35,750 TSH</div>
+                <div class="mineral-profit">Net Profit (240 days): 8,580,000 TSH</div>
+                <button class="btn-primary" onclick="invest('iron gold', 200000, 35750, 72, this)"><i class="bi bi-check-circle-fill"></i><span>Hold</span><span class="loader" style="display:none;"></span></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="deposit" class="section">
+        <h1>Deposit Funds</h1>
+        <form id="depositForm">
+            <div class="form-group">
+                <input type="number" id="depositAmount" name="amount" class="form-control" min="10" step="0.01" placeholder=" " required>
+                <label for="depositAmount">Amount (USDT) - Must match a plan (10, 15, 18, 36, 72)</label>
+            </div>
+            <div class="address-box">
+                <div>TRC-20 Address: TEY8M7iJZRAJVUdTq1QdGF5FUQjXZa3Qfe</div>
+                <button type="button" class="btn-primary" onclick="copyAddress()" style="width: auto; padding: 6px 12px; font-size: 0.8rem; margin-top: 10px;">
+                    <i class="bi bi-clipboard"></i> Copy
+                </button>
+            </div>
+            <div class="form-group">
+                <input type="text" id="transactionId" name="transactionId" class="form-control" placeholder=" " required>
+                <label for="transactionId">Transaction ID</label>
+            </div>
+            <button type="submit" class="btn-primary" id="depositBtn"><span class="loader" id="depositLoader"></span><span id="depositText">Submit</span></button>
+        </form>
+        <div class="history" style="margin-top: 20px;">
+            <h3>How to Deposit USDT (TRC-20)</h3>
+            <p style="text-align: left; font-size: 0.9rem;">
+                Follow these steps to deposit USDT to your PENATA account:
+            </p>
+            <ol style="text-align: left; font-size: 0.9rem; padding-left: 20px;">
+                <li><strong>With a Binance Account:</strong>
+                    <ul>
+                        <li>Log in to <a href="https://www.binance.com" target="_blank">Binance</a>.</li>
+                        <li>Go to "Wallet" > "Spot Wallet" and search for USDT.</li>
+                        <li>Click "Withdraw," select "TRC-20" network, and paste the address above.</li>
+                        <li>Enter the amount (e.g., 10, 15, 18, 36, or 72 USDT), confirm, and complete the transaction.</li>
+                        <li>Copy the Transaction ID (TxID) after sending and paste it in the form above.</li>
+                    </ul>
+                </li>
+                <li><strong>Without a Binance Account:</strong>
+                    <ul>
+                        <li>We recommend creating a <a href="https://www.binance.com/en/register?ref=CPA_00W5U7KX3M" target="_blank">Binance account</a> for the easiest and safest way to deposit USDT.</li>
+                        <li>Once registered, fund your account via P2P trading or card payment, then follow the steps above.</li>
+                        <li>Alternatively, ask a friend with a Binance account to send USDT to the address above and provide you with the Transaction ID.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p style="text-align: left; font-size: 0.9rem; color: #f59e0b;">
+                <strong>Note:</strong> Ensure the amount matches a plan (10, 15, 18, 36, 72 USDT). Deposits take 5-30 minutes to reflect after network confirmation and admin approval.
+            </p>
+        </div>
+        <div class="history" id="depositHistory"></div>
+    </div>
+
+    <div id="withdraw" class="section">
+        <h1>Withdraw Funds</h1>
+        <form id="withdrawForm">
+            <div class="form-group">
+                <input type="number" id="withdrawAmount" name="amount" class="form-control" min="3" step="0.01" placeholder=" " required>
+                <label for="withdrawAmount">Amount (USDT, Min: 3) - Fee 3% only</label>
+            </div>
+            <div class="form-group">
+                <input type="text" id="withdrawAddress" name="address" class="form-control" placeholder=" " required>
+                <label for="withdrawAddress">YOUR TRC-20 Address</label>
+            </div>
+            <button type="submit" class="btn-primary" id="withdrawBtn"><span class="loader" id="withdrawLoader"></span><span id="withdrawText">Request</span></button>
+        </form>
+        <div class="history" id="withdrawHistory"></div>
+    </div>
+
+    <div id="my-account" class="section">
+        <h1>My Account</h1>
+        <div class="dashboard-balance" id="accountBalance"><span class="balance-loader"></span></div>
+        <div class="history" id="planDetails"></div>
+        <div class="history" id="referralSection">
+            <h3>Refer & Earn</h3>
+            <p>Invite friends and earn TSH when they hold a plan!</p>
+            <div class="address-box" id="referralLink">Loading...</div>
+            <button class="btn-primary" onclick="copyReferralLink()" style="width: auto; margin: 10px auto;">
+                <i class="bi bi-clipboard"></i> Copy Link
+            </button>
+            <div id="referralStats">
+                <p><strong>Referred Users:</strong> <span id="referralCount">0</span></p>
+                <p><strong>Total Referral Rewards:</strong> <span id="referralRewards">0 TSH</span></p>
+                <div id="referredUsers"></div>
+            </div>
+        </div>
+        <button class="refresh-btn" onclick="refreshAccount()">Refresh</button>
+        <button class="btn-danger" onclick="logout()">Logout</button>
+    </div>
+
+    <div id="chat" class="section">
+        <div class="chat-header">
+            <span id="customerCareName">Customer Care</span>
+            <span class="chat-status"><span class="online-dot"></span> Online</span>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <div class="form-group">
+                <textarea id="chatInput" class="form-control" placeholder=" " rows="3" style="resize: none;"></textarea>
+                <label for="chatInput">Type your message...</label>
+            </div>
+            <button id="chatSend" class="btn-primary"><i class="bi bi-send-fill"></i> Send</button>
+        </div>
+    </div>
+
+    <div class="footer-nav" id="footerNav" style="display: none;">
+        <div class="nav-item active" onclick="showSection('dashboard')" data-section="dashboard">
+            <i class="bi bi-house-fill nav-icon"></i><span class="nav-text">Home</span>
+            <span class="nav-tooltip">Dashboard</span>
+        </div>
+        <div class="nav-item" onclick="showSection('deposit')" data-section="deposit">
+            <i class="bi bi-wallet2 nav-icon"></i><span class="nav-text">Deposit</span>
+            <span class="nav-tooltip">Add Funds</span>
+        </div>
+        <div class="nav-item" onclick="showSection('my-account')" data-section="my-account">
+            <i class="bi bi-person-fill nav-icon"></i><span class="nav-text">Account</span>
+            <span class="nav-tooltip">My Profile</span>
+        </div>
+        <div class="nav-item" onclick="showSection('withdraw')" data-section="withdraw">
+            <i class="bi bi-arrow-right-circle-fill nav-icon"></i><span class="nav-text">Withdraw</span>
+            <span class="nav-tooltip">Cash Out</span>
+        </div>
+        <div class="nav-item" onclick="showSection('chat')" data-section="chat">
+            <i class="bi bi-chat-dots-fill nav-icon"></i><span class="nav-text">Chat</span>
+            <span class="nav-tooltip">Support</span>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyz9xKUAwfsyRvgFd_4qqoNsyskYjNk586fpHEj2_miZEAYhVMwxU_EK2726XKsYlul/exec"; // Replace with your deployed script URL
+        const UNSPLASH_ACCESS_KEY = "hYCM33ABpXDiyzJcSL40J53uhPbLGwnhCwVZln91VmQ";
+        let email = null;
+        let investments = [];
+        let pollingInterval = null;
+        let currentBalance = null;
+        let lastDisplayedBalance = null;
+        const USDT_TO_TSH = 2800;
+        const VALID_PLAN_AMOUNTS_USDT = [10, 15, 18, 36, 72];
+        const HOLDING_CYCLE_DAYS = 240;
+        const BASE_URL = window.location.href.split('?')[0];
+        const SESSION_DURATION = 7 * 60 * 60 * 1000;
+        const CUSTOMER_CARE_NAMES = ["Alex", "Sophie", "Liam", "Emma", "Noah"];
+        const POLLING_INTERVAL_MS = 5000; // Poll every 5 seconds when authenticated
+
+        function formatTSH(amount) {
+            return `${Math.round(amount).toLocaleString()} TSH`;
+        }
+
+        function formatUSDT(amount) {
+            return `${parseFloat(amount).toFixed(2)} USDT`;
+        }
+
+        function showBalanceLoader() {
+            const elements = ['headerBalance', 'dashboardBalance', 'accountBalance'];
+            elements.forEach(id => {
+                document.getElementById(id).innerHTML = '<span class="balance-loader"></span>';
+            });
+        }
+
+        function updateBalanceDisplays(balance) {
+            const formattedBalance = formatTSH(balance);
+            if (formattedBalance === lastDisplayedBalance) return;
+            lastDisplayedBalance = formattedBalance;
+            const elements = ['headerBalance', 'dashboardBalance', 'accountBalance'];
+            elements.forEach(id => {
+                document.getElementById(id).textContent = formattedBalance;
+            });
+        }
+
+        async function fetchUnsplashImage(query, elementId) {
+            const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=1&client_id=${UNSPLASH_ACCESS_KEY}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.results && data.results.length > 0) {
+                    document.getElementById(elementId).src = data.results[0].urls.small;
+                }
+            } catch (error) {
+                console.error(`Error fetching image for ${query}:`, error);
+                document.getElementById(elementId).src = 'https://via.placeholder.com/60?text=Image+Not+Found';
+            }
+        }
+
+        function getRandomCustomerCareName() {
+            return CUSTOMER_CARE_NAMES[Math.floor(Math.random() * CUSTOMER_CARE_NAMES.length)];
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.getAttribute('data-section') === sectionId);
+            });
+            const header = document.getElementById('header');
+            const footerNav = document.getElementById('footerNav');
+            const isAuthSection = ['dashboard', 'deposit', 'withdraw', 'my-account', 'chat'].includes(sectionId);
+            header.style.display = isAuthSection ? 'flex' : 'none';
+            footerNav.style.display = isAuthSection ? 'flex' : 'none';
+
+            if (!email && isAuthSection) {
+                Swal.fire({
+                    title: 'Please Sign In',
+                    text: 'Sign in to access this section.',
+                    icon: 'warning',
+                    confirmButtonColor: '#4361ee'
+                }).then(() => showSection('login'));
+                return;
+            }
+
+            if (isAuthSection) {
+                if (currentBalance === null) {
+                    showBalanceLoader();
+                    refreshAccount();
+                } else {
+                    updateBalanceDisplays(currentBalance);
+                }
+                startPolling();
+            } else {
+                stopPolling();
+                updateBalanceDisplays(0);
+            }
+
+            if (sectionId === 'deposit') fetchDepositHistory();
+            if (sectionId === 'withdraw') fetchWithdrawHistory();
+            if (sectionId === 'chat') {
+                document.getElementById('customerCareName').textContent = `${getRandomCustomerCareName()} - Customer Care`;
+                fetchChatMessages();
+            }
+        }
+
+        function startPolling() {
+            if (pollingInterval) return;
+            pollingInterval = setInterval(() => {
+                if (email) refreshAccount();
+            }, POLLING_INTERVAL_MS);
+        }
+
+        function stopPolling() {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+                pollingInterval = null;
+            }
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Sign Out?',
+                text: 'Are you sure you want to sign out?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#4361ee',
+                cancelButtonColor: '#f44336'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    email = null;
+                    investments = [];
+                    currentBalance = null;
+                    lastDisplayedBalance = null;
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('loginTimestamp');
+                    stopPolling();
+                    document.getElementById('footerNav').style.display = 'none';
+                    document.getElementById('header').style.display = 'none';
+                    updateBalanceDisplays(0);
+                    showSection('login');
+                    Swal.fire('Signed Out', 'You have been logged out.', 'success');
+                }
+            });
+        }
+
+        function saveSession() {
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('loginTimestamp', Date.now());
+        }
+
+        function checkSession() {
+            const storedEmail = localStorage.getItem('userEmail');
+            const loginTimestamp = localStorage.getItem('loginTimestamp');
+            if (storedEmail && loginTimestamp) {
+                const timeElapsed = Date.now() - parseInt(loginTimestamp);
+                if (timeElapsed < SESSION_DURATION) {
+                    email = storedEmail;
+                    showBalanceLoader();
+                    showSection('dashboard');
+                    refreshAccount();
+                    return true;
+                } else {
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('loginTimestamp');
+                }
+            }
+            return false;
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const regBtn = document.getElementById('regBtn');
+            const regText = document.getElementById('regText');
+            const regLoader = document.getElementById('regLoader');
+            regBtn.disabled = true;
+            regText.textContent = 'Signing Up...';
+            regLoader.style.display = 'inline-block';
+
+            const formData = new FormData(this);
+            formData.append('action', 'register');
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            if (refCode) formData.append('referredBy', refCode);
+
+            fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        Swal.fire('Success', 'Sign up successful! Please sign in.', 'success').then(() => showSection('login'));
+                        this.reset();
+                    } else {
+                        Swal.fire('Error', data.error || 'Sign up failed.', 'error');
+                    }
+                })
+                .catch(error => Swal.fire('Error', 'Something went wrong.', 'error'))
+                .finally(() => {
+                    regBtn.disabled = false;
+                    regText.textContent = 'Sign Up';
+                    regLoader.style.display = 'none';
+                });
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const loginBtn = document.getElementById('loginBtn');
+            const loginText = document.getElementById('loginText');
+            const loginLoader = document.getElementById('loginLoader');
+            loginBtn.disabled = true;
+            loginText.textContent = 'Signing In...';
+            loginLoader.style.display = 'inline-block';
+
+            const formData = new FormData(this);
+            formData.append('action', 'login');
+            fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        email = data.email;
+                        saveSession();
+                        showBalanceLoader();
+                        showSection('dashboard');
+                        refreshAccount();
+                        Swal.fire('Welcome', 'Signed in successfully!', 'success');
+                        this.reset();
+                    } else {
+                        Swal.fire('Error', data.error || 'Invalid email or password.', 'error');
+                    }
+                })
+                .catch(error => Swal.fire('Error', 'Something went wrong.', 'error'))
+                .finally(() => {
+                    loginBtn.disabled = false;
+                    loginText.textContent = 'Sign In';
+                    loginLoader.style.display = 'none';
+                });
+        });
+
+        function invest(plan, tsh, dailyReturnTSH, usdtAmount, button) {
+            if (!email) return showSection('login');
+            const holdText = button.querySelector('span:not(.loader)');
+            const holdLoader = button.querySelector('.loader');
+            button.disabled = true;
+            holdText.textContent = 'Holding...';
+            holdLoader.style.display = 'inline-block';
+
+            fetchBalance().then(balance => {
+                if (balance < tsh) {
+                    Swal.fire('Insufficient Balance', `Need ${formatTSH(tsh)}, but only ${formatTSH(balance)} available.`, 'error');
+                    button.disabled = false;
+                    holdText.textContent = 'Hold';
+                    holdLoader.style.display = 'none';
+                    return;
+                }
+
+                Swal.fire({
+                    title: `Hold ${plan}?`,
+                    text: `Confirm holding ${formatTSH(tsh)} (${formatUSDT(usdtAmount)}) in ${plan} for 240 days.`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#4361ee'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const formData = new FormData();
+                        formData.append('action', 'addInvestment');
+                        formData.append('email', email);
+                        formData.append('plan', plan);
+                        formData.append('amountTSH', tsh);
+                        formData.append('dailyReturnTSH', dailyReturnTSH);
+                        formData.append('usdtAmount', usdtAmount);
+                        formData.append('startDate', new Date().toISOString());
+                        formData.append('cycleDays', HOLDING_CYCLE_DAYS);
+
+                        fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.result === 'success') {
+                                    Swal.fire('Success', `Held ${formatTSH(tsh)} in ${plan}! Daily profit started.`, 'success');
+                                    refreshAccount();
+                                } else {
+                                    Swal.fire('Error', data.error || 'Holding failed.', 'error');
+                                }
+                            })
+                            .catch(error => Swal.fire('Error', 'Something went wrong.', 'error'))
+                            .finally(() => {
+                                button.disabled = false;
+                                holdText.textContent = 'Hold';
+                                holdLoader.style.display = 'none';
+                            });
+                    } else {
+                        button.disabled = false;
+                        holdText.textContent = 'Hold';
+                        holdLoader.style.display = 'none';
+                    }
+                });
+            }).catch(error => {
+                console.error('Error fetching balance:', error);
+                Swal.fire('Error', 'Unable to check balance. Please try again.', 'error');
+                button.disabled = false;
+                holdText.textContent = 'Hold';
+                holdLoader.style.display = 'none';
+            });
+        }
+
+        function fetchInvestments() {
+            if (!email) return Promise.resolve([]);
+            const formData = new FormData();
+            formData.append('action', 'getInvestments');
+            formData.append('email', email);
+            return fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        return data.investments.map(inv => ({
+                            plan: inv.plan,
+                            amountTSH: parseFloat(inv.amountTSH),
+                            dailyReturnTSH: parseFloat(inv.dailyReturnTSH),
+                            usdtAmount: parseFloat(inv.usdtAmount),
+                            startDate: inv.startDate,
+                            lastIncomeUpdate: inv.lastIncomeUpdate || null,
+                            cycleDays: parseInt(inv.cycleDays) || HOLDING_CYCLE_DAYS
+                        }));
+                    }
+                    return [];
+                })
+                .catch(error => {
+                    console.error('Error fetching investments:', error);
+                    return [];
+                });
+        }
+
+        document.getElementById('depositForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!email) return showSection('login');
+            const amountUSDT = parseFloat(document.getElementById('depositAmount').value);
+            if (!VALID_PLAN_AMOUNTS_USDT.includes(amountUSDT)) {
+                Swal.fire('Invalid Amount', 'Deposit must match a plan: 10, 15, 18, 36, or 72 USDT.', 'error');
+                return;
+            }
+            const depositBtn = document.getElementById('depositBtn');
+            const depositText = document.getElementById('depositText');
+            const depositLoader = document.getElementById('depositLoader');
+            depositBtn.disabled = true;
+            depositText.textContent = 'Submitting...';
+            depositLoader.style.display = 'inline-block';
+
+            const formData = new FormData(this);
+            formData.append('action', 'deposit');
+            formData.append('email', email);
+            formData.append('plan', 'money');
+            fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        Swal.fire({
+                            title: 'Deposit Submitted',
+                            text: `Deposited ${formatUSDT(amountUSDT)}. Awaiting approval.`,
+                            icon: 'success'
+                        }).then(() => {
+                            this.reset();
+                            fetchDepositHistory();
+                            refreshAccount();
+                        });
+                    } else {
+                        Swal.fire('Error', data.error || 'Deposit failed.', 'error');
+                    }
+                })
+                .catch(error => Swal.fire('Error', 'Something went wrong.', 'error'))
+                .finally(() => {
+                    depositBtn.disabled = false;
+                    depositText.textContent = 'Submit';
+                    depositLoader.style.display = 'none';
+                });
+        });
+
+        document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!email) return showSection('login');
+            const amountUSDT = parseFloat(document.getElementById('withdrawAmount').value);
+            const amountTSH = amountUSDT * USDT_TO_TSH;
+            if (amountUSDT < 3) {
+                Swal.fire('Error', 'Minimum withdrawal is 3 USDT.', 'error');
+                return;
+            }
+            const withdrawBtn = document.getElementById('withdrawBtn');
+            const withdrawText = document.getElementById('withdrawText');
+            const withdrawLoader = document.getElementById('withdrawLoader');
+            withdrawBtn.disabled = true;
+            withdrawText.textContent = 'Requesting...';
+            withdrawLoader.style.display = 'inline-block';
+
+            fetchBalance().then(balance => {
+                if (balance < amountTSH) {
+                    Swal.fire('Error', `Insufficient balance. Available: ${formatTSH(balance)}`, 'error');
+                    withdrawBtn.disabled = false;
+                    withdrawText.textContent = 'Request';
+                    withdrawLoader.style.display = 'none';
+                    return;
+                }
+
+                fetchWithdrawHistoryForCheck().then(hasPending => {
+                    if (hasPending) {
+                        Swal.fire('Error', 'You have a pending withdrawal. Please wait until it is processed.', 'error');
+                        withdrawBtn.disabled = false;
+                        withdrawText.textContent = 'Request';
+                        withdrawLoader.style.display = 'none';
+                        return;
+                    }
+
+                    const formData = new FormData(this);
+                    formData.append('action', 'withdraw');
+                    formData.append('email', email);
+                    fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.result === 'success') {
+                                Swal.fire('Withdrawal Requested', 'Awaiting approval.', 'success');
+                                this.reset();
+                                refreshAccount();
+                                fetchWithdrawHistory();
+                            } else {
+                                Swal.fire('Error', data.error || 'Withdrawal failed.', 'error');
+                            }
+                        })
+                        .catch(error => Swal.fire('Error', 'Something went wrong.', 'error'))
+                        .finally(() => {
+                            withdrawBtn.disabled = false;
+                            withdrawText.textContent = 'Request';
+                            withdrawLoader.style.display = 'none';
+                        });
+                });
+            });
+        });
+
+        function fetchWithdrawHistoryForCheck() {
+            if (!email) return Promise.resolve(false);
+            const formData = new FormData();
+            formData.append('action', 'getWithdrawHistory');
+            formData.append('email', email);
+            return fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        return data.withdrawals.some(w => w.status.toLowerCase() === 'pending');
+                    }
+                    return false;
+                })
+                .catch(error => {
+                    console.error('Error checking withdraw history:', error);
+                    return false;
+                });
+        }
+
+        function refreshAccount() {
+            if (!email) {
+                currentBalance = null;
+                lastDisplayedBalance = null;
+                updateBalanceDisplays(0);
+                return Promise.resolve(0);
+            }
+            if (currentBalance === null) showBalanceLoader();
+
+            return Promise.all([fetchBalance(), fetchInvestments(), fetchReferralStats()])
+                .then(([balance, invs, referralStats]) => {
+                    investments = invs;
+                    currentBalance = balance;
+                    updateBalanceDisplays(balance);
+                    updatePlanDetails(balance);
+                    updateReferralSection(referralStats);
+                    return balance;
+                })
+                .catch(error => {
+                    console.error('Error refreshing account:', error);
+                    if (currentBalance !== null) {
+                        updateBalanceDisplays(currentBalance);
+                    }
+                    return currentBalance || 0;
+                });
+        }
+
+        function fetchBalance() {
+            if (!email) return Promise.resolve(0);
+            const formData = new FormData();
+            formData.append('action', 'getBalance');
+            formData.append('email', email);
+            return fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        return data.balanceTSH;
+                    }
+                    return 0;
+                })
+                .catch(error => {
+                    console.error('Error fetching balance:', error);
+                    return 0;
+                });
+        }
+
+        function updatePlanDetails(balance) {
+            const planDetails = document.getElementById('planDetails');
+            let html = '<h3>Your Holdings</h3>';
+            if (investments.length === 0) {
+                html += `<p>No active holdings yet.</p>`;
+                if (balance > 0) html += `<p>Available Balance: ${formatTSH(balance)}</p>`;
+            } else {
+                investments.forEach(inv => {
+                    const daysActive = Math.floor((new Date() - new Date(inv.startDate)) / (1000 * 60 * 60 * 24));
+                    const totalIncome = inv.dailyReturnTSH * Math.min(daysActive, inv.cycleDays);
+                    const daysRemaining = Math.max(0, inv.cycleDays - daysActive);
+                    html += `
+                        <div class="history-item">
+                            <strong>${inv.plan}</strong><br>
+                            Invested: ${formatTSH(inv.amountTSH)} (${formatUSDT(inv.usdtAmount)})<br>
+                            Daily Income: ${formatTSH(inv.dailyReturnTSH)}<br>
+                            Total Income: ${formatTSH(totalIncome)}<br>
+                            Days Active: ${daysActive}/${inv.cycleDays}<br>
+                            Days Remaining: ${daysRemaining}<br>
+                            Start: ${new Date(inv.startDate).toLocaleString()}
+                        </div>
+                    `;
+                });
+                if (balance > 0) html += `<p>Available Balance: ${formatTSH(balance)}</p>`;
+            }
+            planDetails.innerHTML = html;
+        }
+
+        function fetchDepositHistory() {
+            if (!email) return;
+            const formData = new FormData();
+            formData.append('action', 'getDepositHistory');
+            formData.append('email', email);
+            fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        const depositHistory = document.getElementById('depositHistory');
+                        let html = '<h3>Deposit History</h3>';
+                        if (data.deposits.length === 0) {
+                            html += '<p>No deposits yet.</p>';
+                        } else {
+                            data.deposits.forEach(dep => {
+                                const statusClass = dep.status.toLowerCase() === 'pending' ? 'status-pending' : 
+                                                  dep.status.toLowerCase() === 'approved' ? 'status-approved' : 
+                                                  dep.status.toLowerCase() === 'processed' ? 'status-processed' : 'status-rejected';
+                                html += `
+                                    <div class="history-item">
+                                        Amount: ${formatUSDT(dep.amount)} (${formatTSH(dep.amount * USDT_TO_TSH)})<br>
+                                        TxID: ${dep.transactionId.slice(0, 6)}...${dep.transactionId.slice(-6)}<br>
+                                        Status: <span class="${statusClass}">${dep.status}</span><br>
+                                        Date: ${new Date(dep.timestamp).toLocaleString()}
+                                    </div>
+                                `;
+                            });
+                        }
+                        depositHistory.innerHTML = html;
+                    }
+                })
+                .catch(error => console.error('Error fetching deposit history:', error));
+        }
+
+        function fetchWithdrawHistory() {
+            if (!email) return;
+            const formData = new FormData();
+            formData.append('action', 'getWithdrawHistory');
+            formData.append('email', email);
+            fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        const withdrawHistory = document.getElementById('withdrawHistory');
+                        let html = '<h3>Withdrawal History</h3>';
+                        if (data.withdrawals.length === 0) {
+                            html += '<p>No withdrawals yet.</p>';
+                        } else {
+                            data.withdrawals.forEach(withdrawal => {
+                                const statusClass = withdrawal.status.toLowerCase() === 'pending' ? 'status-pending' : 
+                                                  withdrawal.status.toLowerCase() === 'approved' ? 'status-approved' : 
+                                                  withdrawal.status.toLowerCase() === 'processed' ? 'status-processed' : 'status-rejected';
+                                html += `
+                                    <div class="history-item">
+                                        Amount: ${formatUSDT(withdrawal.amount)} (${formatTSH(withdrawal.amount * USDT_TO_TSH)})<br>
+                                        Address: ${withdrawal.address.slice(0, 6)}...${withdrawal.address.slice(-6)}<br>
+                                        Status: <span class="${statusClass}">${withdrawal.status}</span><br>
+                                        Date: ${new Date(withdrawal.timestamp).toLocaleString()}
+                                    </div>
+                                `;
+                            });
+                        }
+                        withdrawHistory.innerHTML = html;
+                    }
+                })
+                .catch(error => console.error('Error fetching withdraw history:', error));
+        }
+
+        function fetchReferralStats() {
+            if (!email) return Promise.resolve({ referredUsers: [], totalRewardsTSH: 0, referralCode: '' });
+            const formData = new FormData();
+            formData.append('action', 'getReferralStats');
+            formData.append('email', email);
+            return fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        return {
+                            referredUsers: data.referredUsers,
+                            totalRewardsTSH: data.totalRewardsTSH,
+                            referralCode: data.referralCode
+                        };
+                    }
+                    return { referredUsers: [], totalRewardsTSH: 0, referralCode: '' };
+                })
+                .catch(error => {
+                    console.error('Error fetching referral stats:', error);
+                    return { referredUsers: [], totalRewardsTSH: 0, referralCode: '' };
+                });
+        }
+
+        function updateReferralSection(stats) {
+            const referralLink = `${BASE_URL}?ref=${stats.referralCode}`;
+            document.getElementById('referralLink').textContent = referralLink;
+            document.getElementById('referralCount').textContent = stats.referredUsers.length;
+            document.getElementById('referralRewards').textContent = formatTSH(stats.totalRewardsTSH);
+            const referredUsersDiv = document.getElementById('referredUsers');
+            let html = '<h4>Referred Users</h4>';
+            if (stats.referredUsers.length === 0) {
+                html += '<p>No referrals yet.</p>';
+            } else {
+                stats.referredUsers.forEach(user => {
+                    html += `
+                        <div class="history-item">
+                            Email: ${user.email}<br>
+                            Plan: ${user.plan || 'Not yet held'}<br>
+                            Reward: ${formatTSH(user.rewardTSH)} (${user.status})<br>
+                            Date: ${new Date(user.timestamp).toLocaleString()}
+                        </div>
+                    `;
+                });
+            }
+            referredUsersDiv.innerHTML = html;
+        }
+
+        function copyReferralLink() {
+            const referralLink = document.getElementById('referralLink').textContent;
+            navigator.clipboard.writeText(referralLink)
+                .then(() => Swal.fire('Copied!', 'Referral link copied to clipboard.', 'success'))
+                .catch(() => Swal.fire('Error', 'Failed to copy link.', 'error'));
+        }
+
+        function copyAddress() {
+            const address = "TEY8M7iJZRAJVUdTq1QdGF5FUQjXZa3Qfe";
+            navigator.clipboard.writeText(address)
+                .then(() => Swal.fire('Copied!', 'TRC-20 address copied to clipboard.', 'success'))
+                .catch(() => Swal.fire('Error', 'Failed to copy address.', 'error'));
+        }
+
+        function fetchChatMessages() {
+            if (!email) return;
+            const formData = new FormData();
+            formData.append('action', 'getChat');
+            formData.append('email', email);
+            fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        displayChatMessages(data.messages);
+                    }
+                })
+                .catch(error => console.error('Error fetching chat messages:', error));
+        }
+
+        function displayChatMessages(messages) {
+            const chatMessagesDiv = document.getElementById('chatMessages');
+            const customerCareName = document.getElementById('customerCareName').textContent.split(' - ')[0];
+            let html = `
+                <div class="chat-message admin">
+                    Hello! Welcome to PENATA support. How can I assist you today?
+                    <small style="color: #6b7280;">${new Date().toLocaleString()}</small>
+                </div>
+            `;
+            if (messages.length > 0) {
+                messages.forEach(msg => {
+                    const isUser = msg.sender === 'user';
+                    html += `
+                        <div class="chat-message ${isUser ? 'user' : 'admin'}">
+                            ${msg.message}
+                            <small style="color: ${isUser ? '#d1d5db' : '#6b7280'};">${new Date(msg.timestamp).toLocaleString()}</small>
+                            ${msg.response ? `<br><strong>${customerCareName}:</strong> ${msg.response}` : '<br><em style="color: #9ca3af;">Awaiting response...</em>'}
+                        </div>
+                    `;
+                });
+            }
+            chatMessagesDiv.innerHTML = html;
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+        }
+
+        document.getElementById('chatSend').addEventListener('click', function() {
+            if (!email) return showSection('login');
+            const chatInput = document.getElementById('chatInput');
+            const message = chatInput.value.trim();
+            if (!message) {
+                Swal.fire('Error', 'Please enter a message.', 'error');
+                return;
+            }
+
+            const sendBtn = this;
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<span class="loader" style="display: inline-block;"></span> Sending...';
+
+            const formData = new FormData();
+            formData.append('action', 'sendChat');
+            formData.append('email', email);
+            formData.append('message', message);
+
+            fetch(SCRIPT_URL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        chatInput.value = '';
+                        fetchChatMessages();
+                        Swal.fire('Sent!', 'Your message has been sent to support.', 'success');
+                    } else {
+                        Swal.fire('Error', data.error || 'Failed to send message.', 'error');
+                    }
+                })
+                .catch(error => Swal.fire('Error', 'Something went wrong.', 'error'))
+                .finally(() => {
+                    sendBtn.disabled = false;
+                    sendBtn.innerHTML = '<i class="bi bi-send-fill"></i> Send';
+                });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('header').style.display = 'none';
+            document.getElementById('footerNav').style.display = 'none';
+            updateBalanceDisplays(0);
+
+            if (checkSession()) {
+                // Session restored
+            } else {
+                showSection('register');
+            }
+
+            fetchUnsplashImage('ruby gemstone', 'ruby-image');
+            fetchUnsplashImage('diamond gemstone', 'diamond-image');
+            fetchUnsplashImage('sulphur crystal', 'sulphur-image');
+            fetchUnsplashImage('iron ore', 'iron-image');
+            fetchUnsplashImage('gold', 'gold-image');
+        });
+    </script>
+</body>
+</html>
